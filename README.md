@@ -13,3 +13,12 @@ You will design a bank wallet for a family where all the family members (10 memb
 8) Children must ask permission to use the wallet two times a day regardless of the amount of money.
 9) Kid can request overpay from Mam only if he needs to pay more than 50$, Mam can accept or reject or transfer the request to Dad.
 
+You should:
+1. Rewrite the requirements and system description into user stories.
+2. Show business model actions flow, as a diagram.
+3. Create the needed UML diagrams for this application showing all attributes and methods needed to complete all requirements.
+4. Do a plan of your work with activities and time you estimate (guess) it will take you to complete.
+5. Implement the application in the language of your preference. The application must run on a windows pc. The user interface can be via the console menu.
+6. As you work on your project, record the time each activity takes you (if you must add activities to the plan, estimate a time also).
+7. Present a report showing your diagram and its relation to your code structure and code.
+8. Present a report of the plan, estimated time, and actual time to complete each activity.
