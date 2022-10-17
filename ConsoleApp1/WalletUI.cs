@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Presentation;
-
+﻿
 public static class WalletUI
 {
 
@@ -160,7 +159,7 @@ public static class WalletUI
                 }
             }
 
-            // return to parent interface
+            // return to user interface
             user = parent;
         }
     }
@@ -176,7 +175,7 @@ public static class WalletUI
         Console.WriteLine();
     }
 
-    private static void ParentPayUI(Parent parent)
+    private static void ParentPayUI(User user)
     {
 
         // input the amount of money
@@ -188,7 +187,7 @@ public static class WalletUI
 
         Console.WriteLine();
         // pay money
-        Console.WriteLine(parent.Pay(payMoney, shopName)
+        Console.WriteLine(user.Pay(payMoney, shopName)
             ? "!!! Pay succeeded"
             : "!!! Pay failed, the balance of the wallet is not sufficient.");
     }
@@ -220,31 +219,35 @@ public static class WalletUI
 
     private static void DadBlockUI(Dad dad)
     {
-        // show all users who are not blocked
-        Console.WriteLine("--------------------------------" );
-        Console.WriteLine("Users who are not blocked");
-        Console.WriteLine("--------------------------------" );
-        Console.WriteLine("User Role |User Id   |User Name");
-        Console.WriteLine("--------------------------------" );
-        var users = DataOperation.GetUsersNotBlocked();
-        foreach (var user in users)
+        while (true)
         {
-            Console.WriteLine($"{user.Role,-10}|{user.Id,-10}|{user.Name,-10}");
-        }
+            // show all users who are not blocked
+            Console.WriteLine("--------------------------------");
+            Console.WriteLine("Users who are not blocked");
+            Console.WriteLine("--------------------------------");
+            Console.WriteLine("User Role |User Id   |User Name");
+            Console.WriteLine("--------------------------------");
+            var users = DataOperation.GetUsersNotBlocked();
+            foreach (var user in users)
+            {
+                Console.WriteLine($"{user.Role,-10}|{user.Id,-10}|{user.Name,-10}");
+            }
 
-        // select the user you want to block
-        Console.Write("Input the user id that you want to block: ");
-        if (!long.TryParse(Console.ReadLine(), out long userId)) return;
-        var selectedUser = DataOperation.GetUserDataById(userId);
-        if (selectedUser == null)
-        {
-            Console.WriteLine("!!! Sorry, the user is not found.");
-            // return block UserUI
-            DadBlockUI(dad);
-            return;
+            // select the user you want to block
+            Console.Write("Input the user id that you want to block: ");
+            if (!long.TryParse(Console.ReadLine(), out var userId)) return;
+            var selectedUser = DataOperation.GetUserDataById(userId);
+            if (selectedUser == null)
+            {
+                Console.WriteLine("!!! Sorry, the user is not found.");
+                // return block UserUI
+                continue;
+            }
+
+            dad.Block(selectedUser);
+            Console.WriteLine("Block succeeded!");
+            break;
         }
-        dad.Block(selectedUser);
-        Console.WriteLine("Block succeeded!");
     }
 
     public static void ParentReplyChildOverpayUI(Parent parent)
@@ -319,10 +322,10 @@ public static class WalletUI
         switch (res)
         {
             case "Y":
-                parent.ReplyOverpayRequest(true, selectedChild);
+                parent.ReplyRequestByType(true, selectedChild, NotificationType.ChildRequestOverpay);
                 break;
             case "N":
-                parent.ReplyOverpayRequest(false, selectedChild);
+                parent.ReplyRequestByType(false, selectedChild, NotificationType.ChildRequestOverpay);
                 break;
         }
     }
@@ -376,10 +379,10 @@ public static class WalletUI
         switch (res)
         {
             case "Y":
-                parent.PermitChildToUseWallet(true, selectedChild);
+                parent.ReplyRequestByType(true, selectedChild, NotificationType.ChildRequestToUse);
                 break;
             case "N":
-                parent.PermitChildToUseWallet(false, selectedChild);
+                parent.ReplyRequestByType(false, selectedChild, NotificationType.ChildRequestToUse);
                 break;
         }
     }
@@ -406,7 +409,6 @@ public static class WalletUI
         {
             var child = (Child)user;
 
-            // if it is 10:00am or 4pm, before entering the home page,
             // child should ask permission if his/her permission times is less than 2 and he/she haven't request a permission
             var count = DataOperation.GetMomData().NotificationList.Count(n => n.ChildName == child.Name && n.Type == NotificationType.ChildRequestToUse);
             if (child.AskPermissionTimes < 2 && count == 0)

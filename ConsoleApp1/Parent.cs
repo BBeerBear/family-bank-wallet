@@ -6,34 +6,6 @@
     // linked BankAccount
     public BankAccount BankAccount { get; set; }
 
-    //// pay
-    //public bool Pay(double payMoney, string? shopName)
-    //{
-    //    // if wallet has enough money
-    //    if (!Wallet.WalletHasEnoughMoney(payMoney)) return false;
-    //    // refresh the balance of the wallet
-    //    Wallet.DeductMoney(payMoney);
-
-    //    // send notification if balance < $100
-    //    if (Wallet.IsBalanceLessThan100())
-    //    {
-    //        Wallet.SendBalanceNotification();
-    //    }
-
-    //    // add transaction information
-    //    var transaction = new Transaction()
-    //    {
-    //        UserName = Name,
-    //        ShopName = shopName,
-    //        Money = payMoney,
-    //        TimeStamp = DateTime.Now
-    //    };
-    //    DataOperation.TransactionsList.Add(transaction);
-
-    //    // pay succeeded
-    //    return true;
-    //}
-
     // withdraw
     public bool Withdraw(double withdrawMoney)
     {
@@ -60,28 +32,26 @@
 
     }
 
-    // Permit child to use the wallet
-    public void PermitChildToUseWallet(bool isAccepted, Child child)
+    // Reply children children request
+    public void ReplyRequestByType(bool isAccepted, Child child, NotificationType notificationType)
     {
-        child.IsPermittedToUseWallet = isAccepted;
+        switch (notificationType)
+        {
+            case NotificationType.ChildRequestToUse:
+                child.IsPermittedToUseWallet = isAccepted;
+                break;
+            case NotificationType.ChildRequestOverpay:
+                child.IsOverpayPermitted = isAccepted;
+                break;
+        }
 
-        // clear the child in the permission list(both parents)
+        // clear the child in the permission list(both parents) by notificationType
         foreach (var parent in DataOperation.GetParentsData())
         {
-            var notification = NotificationList.Find(n =>
-                n.ChildName == child.Name && n.Type == NotificationType.ChildRequestToUse);
+            var notification = parent.NotificationList.Find(n =>
+                n.ChildName == child.Name && n.Type == notificationType);
             if (notification != null) parent.NotificationList.Remove(notification);
         }
-    }
-
-    // parent reply children overpay request
-    public void ReplyOverpayRequest(bool isAccepted, Child child)
-    {
-        child.IsOverpayPermitted = isAccepted;
-        // remove from the notification list
-        var notification = NotificationList.Find(n => 
-            n.ChildName == child.Name && n.Type == NotificationType.ChildRequestOverpay);
-        if (notification != null) NotificationList.Remove(notification);
     }
 
     // get notifications according to type
@@ -92,4 +62,5 @@
                     select n).ToList();
         return list;
     }
+
 }

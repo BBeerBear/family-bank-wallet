@@ -24,25 +24,6 @@ public class Child : User
         AskPermissionTimes += 1;
     }
 
-    //// pay 
-    //public void Pay(double money, string? shopName)
-    //{
-    //    // add transaction information
-    //    var transaction = new Transaction(){
-    //        UserName = Name,
-    //        ShopName = shopName, 
-    //        Money = money, 
-    //        TimeStamp = DateTime.Now};
-    //    DataOperation.TransactionsList.Add(transaction);
-
-    //    // update the balance of the wallet
-    //    Wallet.DeductMoney(money);
-    //    Console.WriteLine("Pay succeeded");
-
-    //    // update child's used money
-    //    UsedMoney += money;
-    //}
-
     public bool IsOverpay(double money)
     {
         return UsedMoney + money > _maxPayOneDay;

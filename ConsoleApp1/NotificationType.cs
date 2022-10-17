@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-public enum NotificationType
+﻿public enum NotificationType
 {
     ChildRequestDeposit,
     BalanceLessThan100,
