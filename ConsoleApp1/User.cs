@@ -20,16 +20,19 @@
             Wallet.SendBalanceNotification();
         }
 
-        // add transaction information
-        var transaction = new Transaction()
+        if (shopName != null)
         {
-            UserName = Name,
-            ShopName = shopName,
-            Money = payMoney,
-            TimeStamp = DateTime.Now
-        };
-        DataOperation.TransactionsList.Add(transaction);
-
+            // add transaction information
+            var transaction = new Transaction()
+            {
+                UserName = Name,
+                ShopName = shopName,
+                Money = payMoney,
+                TimeStamp = DateTime.Now
+            };
+            DataOperation.TransactionsList.Add(transaction);
+        }
+        
         // pay succeeded
         return true;
     }

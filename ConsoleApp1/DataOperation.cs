@@ -36,7 +36,7 @@
 
         var child1 = new Child()
         {
-            Id = 456,
+            Id = 345,
             Name = "Billy",
             Password = "abc",
         };
@@ -44,11 +44,60 @@
 
         var child2 = new Child()
         {
-            Id = 789,
+            Id = 456,
             Name = "Anna",
             Password = "abc",
         };
         Users.Add(child2);
+        
+        var child3 = new Child()
+        {
+            Id = 567,
+            Name = "Apple",
+            Password = "abc",
+        };
+        Users.Add(child3);
+
+        var child4 = new Child()
+        {
+            Id = 678,
+            Name = "John",
+            Password = "abc",
+        };
+        Users.Add(child4);
+
+        var child5 = new Child()
+        {
+            Id = 789,
+            Name = "Micheal",
+            Password = "abc",
+        };
+        Users.Add(child5);
+
+        var child6 = new Child()
+        {
+            Id = 890,
+            Name = "Jeff",
+            Password = "abc",
+        };
+        Users.Add(child6);
+
+        var child7 = new Child()
+        {
+            Id = 999,
+            Name = "Alina",
+            Password = "abc",
+        };
+        Users.Add(child7);
+
+        var child8 = new Child()
+        {
+            Id = 888,
+            Name = "Sheff",
+            Password = "abc",
+        };
+        Users.Add(child8);
+
     }
 
     public static User? GetUserDataById(long userId)

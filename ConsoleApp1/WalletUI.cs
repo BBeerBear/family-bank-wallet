@@ -96,8 +96,8 @@ public static class WalletUI
             Console.WriteLine("3 Deposit");
             Console.WriteLine("4 View all transactions");
             Console.WriteLine("5 View my notifications (" + parent.NotificationList.Count() + ")");
-            Console.WriteLine("6 Give children permission to use the wallet");
-            Console.WriteLine("7 Reply children overpay request");
+            Console.WriteLine("6 Reply to children's request to use the wallet");
+            Console.WriteLine("7 Reply to children's overpay request");
             Console.WriteLine("8 Log out");
             Console.WriteLine("9 Exit");
 
@@ -400,6 +400,7 @@ public static class WalletUI
         Console.WriteLine();
         Console.Write("Press any key to home page:");
         Console.ReadKey();
+        Console.WriteLine();
     }
 
     // child home page
